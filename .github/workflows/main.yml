@@ -31,8 +31,8 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Fetch Data
-        uses: gautemo/fetch-api-data-action@1.0.2
+        uses: JamesIves/fetch-api-data-action@releases/v1
         with:
-          url: 'https://fake-movie-database-api.herokuapp.com/api?s=batman'
-          file: 'backup/data.json'
+          ENDPOINT: https://fake-movie-database-api.herokuapp.com/api?s=batman
+          CONFIGURATION: '{ "method": "GET", "headers": {"Authorization": "Bearer ${{ secrets.API_TOKEN }}"} }'
 
