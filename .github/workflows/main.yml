@@ -30,9 +30,7 @@ jobs:
         run: echo Hello, world!
 
       # Runs a set of commands using the runners shell
-      - name: Fetch Data
-        uses: JamesIves/fetch-api-data-action@releases/v1
-        with:
-          ENDPOINT: https://fake-movie-database-api.herokuapp.com/api?s=batman
-          CONFIGURATION: '{ "method": "GET", "headers": {"Authorization": "Bearer ${{ secrets.API_TOKEN }}"} }'
-
+      - name: Install MongoDB tools
+        run: |
+          wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.2.1.deb
+          sudo apt install ./mongodb-database-tools-*-100.2.1.deb 
