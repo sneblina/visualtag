@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Find IP
-      run: wget https://aquaria.ws
+      run: wget http://aquaria.ws/javascripts/aquaria.js
     - name: Install MongoDB
       run: |
         wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | sudo apt-key add -
