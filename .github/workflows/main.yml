@@ -31,4 +31,4 @@ jobs:
     - name: Start MongoDB
       run: |
         sudo systemctl start mongod
-        mongo
+        mongo 'mongodb+srv://reader:zctnbHC8JoZrX10j@cluster0-o9xez.mongodb.net/'
