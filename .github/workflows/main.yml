@@ -1,36 +1,26 @@
-name: Server and Database Start and Test
-
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-
+name: Refresh Feed
+on: 
+  schedule:
+    - cron: 10 15 * * 0-6
 jobs:
-  build:
-
-    runs-on: ubuntu-16.04
-
-    strategy:
-      matrix:
-        node-version: [8.x]
-
+  refresh-feed:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm install
-    - name: Find IP
-      run: wget http://aquaria.ws/javascripts/aquaria.js
-    - name: Install MongoDB
-      run: |
-        wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | sudo apt-key add -
-        echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-        sudo apt-get update
-        sudo apt-get install -y mongodb-org
-    - name: Start MongoDB
-      run: |
-        sudo systemctl start mongod
-        mongo 'mongodb+srv://reader:zctnbHC8JoZrX10j@cluster0-o9xez.mongodb.net/'
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+  
+      - name: Fetch API Data 📦
+        uses: JamesIves/fetch-api-data-action@releases/v1
+        with:
+          ENDPOINT: https://odonoghuelab.org:8011/tagger
+          CONFIGURATION: '{ "method": "GET", "headers": {"Authorization": "Bearer ${{ secrets.API_TOKEN }}"} }'
+
+      - name: Build and Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: master # Pushes the updates to the master branch.
+          FOLDER: fetch-api-data-action # The location of the data.json file saved by the Fetch API Data action.
+          TARGET_FOLDER: protein_cath.json # Saves the data into the 'data' directory on the master branch.
