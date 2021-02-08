@@ -15,4 +15,4 @@ jobs:
         uses: JamesIves/fetch-api-data-action@releases/v1
         with:
           ENDPOINT: https://odonoghuelab.org:8011/tagger
-          CONFIGURATION: '{ "method": "GET", "headers": {"Authorization": "Bearer ${{ secrets.API_TOKEN }}"} }
+          CONFIGURATION: '{ "method": "GET", "headers": {"Authorization": "Bearer ${{ secrets.API_TOKEN }}"} }'
